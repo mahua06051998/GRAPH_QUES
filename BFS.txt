@@ -1,0 +1,50 @@
+#include <iostream>
+#include<deque>
+using namespace std;
+
+
+void BFS(int** graph, int n, int sv, int* visited) {
+    deque<int> q;
+    q.push_front(sv);
+    visited[sv] = 1;
+    int c;
+    while(q.size()) {
+        c = q.front();
+        cout << c << " ";
+         q.pop_front();
+        for(int i = 0; i < n; i++) {
+            if(graph[c][i] == 1) {
+               if(!visited[i]){
+                 q.push_back(i);
+                 visited[i] = 1;
+             }
+            }
+        }
+    }
+}
+
+int main() {
+    int n, e;
+    cin >> n >> e;
+    int** graph = new int*[n];
+    for(int i = 0; i < n; i++) {
+        graph[i] = new int[n];
+        for(int j = 0; j < n; j++) {
+            graph[i][j] = 0;
+        }
+    }
+    int u, v;
+    for(int i = 0; i < e; i++) {
+        cin >> u >> v;
+        graph[u][v] = 1;
+        // graph[v][u] = 1;
+    }
+
+    int* visited = new int[n];
+    for(int i = 0; i < n; i++) {
+        visited[i] = 0;
+    }
+    cout << "BFS Traversal is: \n";
+    BFS(graph, n, 0, visited); 
+    return 0;
+}

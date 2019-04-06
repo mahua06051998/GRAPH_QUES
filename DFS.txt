@@ -1,0 +1,40 @@
+#include <iostream>
+using namespace std;
+
+void printDFS(int** graph, int n, int sv, int* visited) {
+    cout << sv << "\n";
+    visited[sv] = 1;
+    for(int i = 0; i < n; i++) {
+        if(graph[sv][i] == 1) {
+            if(!visited[i]) {
+                printDFS(graph, n, i, visited);
+            }
+        }
+    }
+}
+
+int main() {
+    int n, e;
+    cin >> n >> e;
+    int** graph = new int*[n];
+    for(int i = 0; i < n; i++) {
+        graph[i] = new int[n];
+        for(int j = 0; j < n; j++) {
+            graph[i][j] = 0;
+        }
+    }
+    int u, v;
+    for(int i = 0; i < e; i++) {
+        cin >> u >> v;
+        graph[u][v] = 1;
+        // graph[v][u] = 1;
+    }
+
+    int* visited = new int[n];
+    for(int i = 0; i < n; i++) {
+        visited[i] = 0;
+    }
+    cout << "DFS Traversal is: \n";
+    printDFS(graph, n, 0, visited); 
+    return 0;
+}
