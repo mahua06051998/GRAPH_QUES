@@ -1,0 +1,66 @@
+#include <iostream>
+#include<limits.h>
+using namespace std;
+
+int min_dist(int* distance,int* visited,int V){
+    int d=INT_MAX;
+    int index;
+      for(int i= 0;i<V;i++){
+          if(distance[i] <= d && visited[i]==0){
+            d = distance[i];
+            index = i;
+        }
+      }
+    return index;
+}
+
+
+void Dijkstra(int** graph,int s,int V,int* visited,int* distance,int dst){
+    int u;
+    distance[s] = 0;
+    for(int i=0;i< V-1;i++){
+        u = min_dist(distance,visited,V);
+        visited[u] = 1;
+        cout <<u<<"->"<<"";
+        if(u != dst){
+        for(int v=0;v<V;v++){
+            if(!visited[v]&&distance[u]!=INT_MAX &&graph[u][v] && distance[u]+graph[u][v] < distance[v]){
+                distance[v] = distance[u] + graph[u][v];
+            }
+        }
+     }
+     else
+        break;
+    }
+}
+
+
+
+
+
+int main() {
+    int V,E,u,v,w;
+    cin >> V>>E;
+    int sr,dst;
+    cin >> sr>>dst;
+    int** graph  = new int *[V];
+    for(int i=0;i<V;i++){
+        graph[i] = new int [V];
+        for(int j=0;j<V;j++){
+            graph[i][j] = 0;
+        }
+    }
+    for(int i = 0;i<E;i++){
+        cin >>u>>v>>w;
+        graph[u][v] = w;
+    }
+
+    int* visited  = new int [V];
+    int* distance = new int [V];
+    for(int i=0;i<V;i++){
+        visited[i] = 0;
+        distance[i] = INT_MAX;
+    }
+    Dijkstra(graph,sr,V,visited,distance,dst);
+    
+}

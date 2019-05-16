@@ -1,15 +1,99 @@
-#include <iostream>
+
 #include<deque>
+#include<list>
 using namespace std;
-
-
-void BFS(int** graph, int n, int sv, int* visited) {
+//adajency list
+class Graph{
+    int V;
+    list<int> *adj;
+    public:
+       Graph(int V);
+       void addEdges(int u,int v);
+       void BFS(int s);
+};
+Graph::Graph(int V){
+    this->V = V;
+    adj = new list<int>[V];
+}
+void Graph::addEdges( int u,int v){
+    adj[u].push_back(v);
+}
+void Graph::BFS(int s){
+    int sr;
+    int* visited = new int [V];
+    for(int i=0;i<V;i++){
+        visited[i] = 0;
+    }
     deque<int> q;
-    q.push_front(sv);
-    visited[sv] = 1;
-    int c;
-    while(q.size()) {
-        c = q.front();
+    q.push_back(s);
+    visited[s] = 1;
+    while(q.size()){
+        sr = q.front();
+        cout << sr<<" ";
+        q.pop_front();
+        for(list<int>::iterator i = adj[sr].begin();i!=adj[sr].end();i++){
+            if(!visited[*i]){
+                visited[*i] = 1;
+                q.push_back(*i);
+            }
+        }
+    }
+}
+
+int main(){
+    Graph g(5);
+    g.addEdges(0,1);
+    g.addEdges(0,4);
+    g.addEdges(2,3);
+    g.addEdges(3,4);
+    g.addEdges(4,2);
+    g.addEdges(4,1);
+    g.BFS(0);
+}
+
+// adjacency matrix
+// void BFS(int** graph, int V,int sc, int* visited){
+//     int s;
+//     visited[sc] = 1;
+//     deque<int> q;
+//     q.push_back(sc);
+//     while(q.size()){
+//         s = q.front();
+//         cout << s<<" ";
+//         q.pop_front();
+//         for(int i=0;i<V;i++){
+//             if(graph[s][i] == 1){
+//                 if(!visited[i]){
+//                     q.push_back(i);
+//                     visited[i] = 1;
+//                 }
+//             }
+//         }
+//     }
+// }
+
+// int main() {
+//     int V,E,u,v;
+//     cin >> V >> E;
+//     int** graph = new int *[V];
+//     for(int i=0;i<V;i++){
+//         graph[i] = new int [V]; 
+//         for(int j=0;j<V;j++){
+//             graph[i][j] = 0;
+//         }
+//     }
+//     for(int i=0;i<E;i++){
+//         cin >> u >> v;
+//         graph[u][v] = 1;
+//         //grph[v][u] = 1;
+//     }
+//     int* visited = new int [V];
+//     for(int i=0;i<V;i++){
+//         visited[i] = 0;
+//     }
+//     BFS(graph, V,0,visited);
+// }
+
         cout << c << " ";
          q.pop_front();
         for(int i = 0; i < n; i++) {
@@ -39,7 +123,6 @@ int main() {
         graph[u][v] = 1;
         // graph[v][u] = 1;
     }
-
     int* visited = new int[n];
     for(int i = 0; i < n; i++) {
         visited[i] = 0;

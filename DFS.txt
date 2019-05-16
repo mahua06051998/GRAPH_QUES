@@ -15,7 +15,95 @@ void printDFS(int** graph, int n, int sv, int* visited) {
 
 int main() {
     int n, e;
+    cin >> n >> e;#include <iostream>
+using namespace std;
+//list
+class Graph{
+    int V;
+    list<int> *adj;
+    void DFSUTIL(int s,int* visited);
+    public:
+      Graph(int V);
+      void addEdges(int u,int V);
+      void DFS(int s);
+};
+Graph::Graph(int V){
+    this->V = V;
+    adj = new list<int>[V];
+}
+void Graph::addEdges(int u,int v){
+    adj[u].push_back(v);
+}
+void Graph::DFSUTIL(int s,int* visited){
+    visited[s] =1;
+    cout << s<<" ";
+    list<int>:: iterator i;
+    for(i = adj[s].begin();i != adj[s].end();i++){
+        if(!visited[*i]){
+            DFSUTIL(s,visited);
+        }
+    }
+}
+void Graph::DFS(int s){
+    int* visited = new int[V];
+    for(int i=0;i<V;i++){
+        visited[i] = 0;
+    }
+    DFSUTIL(s,visited);
+}
+
+void main(){
+    Grapg g(5);
+    g.addEdges(0,1);
+    g.addEdges(0,4);
+    g.addEdges(2,3);
+    g.addEdges(3,4);
+    g.addEdges(4,2);
+    g.addEdges(4,1);
+    g.DFS(0);
+
+}
+
+
+
+// Adajency matrix
+void printDFS(int** graph, int n, int sv, int* visited) {
+    cout << sv << " ";
+    visited[sv] = 1;
+    for(int i = 0; i < n; i++) {
+        if(graph[sv][i] == 1) {
+            if(!visited[i]) {
+                printDFS(graph, n, i, visited);
+            }
+        }
+    }
+}
+
+int main() {
+    int n, e;
     cin >> n >> e;
+    int** graph = new int*[n];
+    for(int i = 0; i < n; i++) {
+        graph[i] = new int[n];
+        for(int j = 0; j < n; j++) {
+            graph[i][j] = 0;
+        }
+    }
+    int u, v;
+    for(int i = 0; i < e; i++) {
+        cin >> u >> v;
+        graph[u][v] = 1;
+        // graph[v][u] = 1;
+    }
+
+    int* visited = new int[n];
+    for(int i = 0; i < n; i++) {
+        visited[i] = 0;
+    }
+    cout << "DFS Traversal is: \n";
+    printDFS(graph, n, 0, visited); 
+    return 0;
+}
     int** graph = new int*[n];
     for(int i = 0; i < n; i++) {
         graph[i] = new int[n];
